@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Candidate Onboarding</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Candidate Onboarding</h2>
+        <ul>
+            <li><a href="#">Generate Email</a></li>
+            <li><a href="#">Find Candidate</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="email-container">
+            <h3>Email:</h3>
+            <textarea id="email-subject" placeholder="Subject" readonly></textarea>
+            <textarea id="email-body" placeholder="Body" readonly></textarea>
+        </div>
+
+        <div class="survey-container">
+            <h3>Survey Form:</h3>
+            <form id="survey-form" action="">
+                <!-- Survey form content will be dynamically inserted here -->
+            </form>
+            <button id="generate-btn">Click here</button>
+        </div>
+
+        <div class="search-container">
+            <h3>Find Candidate:</h3>
+            <input type="text" id="search-input" placeholder="Enter Candidate ID">
+            <button id="search-btn">Search</button>
+        </div>
+
+        <div id="candidate-details"></div>
+        
+        <!-- Message for "No data found" -->
+        <div id="no-data-message"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -3,46 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Details</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Candidate Onboarding</title>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Candidate Onboarding</h2>
-        <ul>
-            <li><a href="#">Generate Email</a></li>
-            <li><a href="#">Find Candidate</a></li>
-        </ul>
+
+<div id="sidebar">
+    <button onclick="showInsertForm()">Insert Details</button>
+    <button onclick="showFetchForm()">Fetch Details</button>
+</div>
+
+<div id="content">
+    <div id="insertForm" style="display:none;">
+        <h2>Insert Details</h2>
+        <form id="insertDetailsForm">
+            <label>Email ID:</label>
+            <input type="text" id="email" required><br>
+
+            <label>Mobile:</label>
+            <input type="text" id="mobile" required><br>
+
+            <label>Name:</label>
+            <input type="text" id="name" required><br>
+
+            <label>Work Authorization:</label>
+            <input type="text" id="workauth" required><br>
+
+            <label>Annual Rate:</label>
+            <input type="text" id="annualrate" required><br>
+
+            <label>Hourly Rate:</label>
+            <input type="text" id="hourlyrate" required><br>
+
+            <label>Relocate:</label>
+            <input type="text" id="relocate" required><br>
+
+            <label>Location:</label>
+            <input type="text" id="location" required><br>
+
+            <button type="button" onclick="submitInsertDetails()">Submit</button>
+        </form>
+        <div id="insertMessage"></div>
     </div>
 
-    <div class="content">
-        <div class="email-container">
-            <h3>Email:</h3>
-            <textarea id="email-subject" placeholder="Subject" readonly></textarea>
-            <textarea id="email-body" placeholder="Body" readonly></textarea>
-        </div>
+    <div id="fetchForm" style="display:none;">
+        <h2>Fetch Details</h2>
+        <form id="fetchDetailsForm">
+            <label>Email ID:</label>
+            <input type="text" id="fetchEmail" required><br>
 
-        <div class="survey-container">
-            <h3>Survey Form:</h3>
-            <form id="survey-form" action="">
-                <!-- Survey form content will be dynamically inserted here -->
-            </form>
-            <button id="generate-btn">Click here</button>
-        </div>
-
-        <div class="search-container">
-            <h3>Find Candidate:</h3>
-            <input type="text" id="search-input" placeholder="Enter Candidate ID">
-            <button id="search-btn">Search</button>
-        </div>
-
-        <div id="candidate-details"></div>
-        
-        <!-- Message for "No data found" -->
-        <div id="no-data-message"></div>
+            <button type="button" onclick="submitFetchDetails()">Submit</button>
+        </form>
+        <div id="fetchMessage"></div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

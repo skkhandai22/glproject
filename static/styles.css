@@ -1,78 +1,59 @@
-/* Add styles for the search container */
-.search-container {
-    margin-top: 20px;
-}
+/* Add your styles here */
 
-/* Add styles for the candidate details table */
-.candidate-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.candidate-table td, .candidate-table th {
-    border: 1px solid #ddd;
-    padding: 12px; /* Increased padding for better readability */
-    text-align: left;
-}
-
-.candidate-table th {
-    background-color: #f2f2f2; /* Background color for table header */
-}
-
-/* Style for the "No data found" message */
-#no-data-message {
-    color: red;
-    margin-top: 20px;
-}
-
-/* Additional styles for better appearance */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
 }
 
-.sidebar {
-    height: 100%;
-    width: 250px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #111;
-    padding-top: 20px;
-}
-
-.sidebar h2 {
-    color: white;
+#sidebar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
     text-align: center;
 }
 
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
+#sidebar button {
+    margin: 5px;
+    padding: 10px;
+    background-color: #555;
+    color: #fff;
+    cursor: pointer;
 }
 
-.sidebar ul li {
-    padding: 8px;
-    text-align: center;
+#content {
+    margin: 20px;
 }
 
-.sidebar a {
-    text-decoration: none;
-    font-size: 18px;
-    color: #818181;
+form {
+    margin-bottom: 20px;
+}
+
+label {
     display: block;
-    transition: 0.3s;
+    margin-bottom: 5px;
 }
 
-.sidebar a:hover {
-    color: #f1f1f1;
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
 }
 
-.content {
-    margin-left: 250px;
-    padding: 16px;
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#insertMessage,
+#fetchMessage {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
 }

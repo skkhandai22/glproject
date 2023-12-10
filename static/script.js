@@ -1,122 +1,78 @@
-$(document).ready(function () {
-    // Default: Show email and survey containers, hide search container
-    $('.search-container').hide();
+function showInsertForm() {
+    document.getElementById('insertForm').style.display = 'block';
+    document.getElementById('fetchForm').style.display = 'none';
+}
 
-    // Event listener for sidebar options
-    $('ul').on('click', 'li a', function () {
-        var option = $(this).text().trim().toLowerCase();
+function showFetchForm() {
+    document.getElementById('fetchForm').style.display = 'block';
+    document.getElementById('insertForm').style.display = 'none';
+}
 
-        // Show/hide containers based on the selected option
-        switch (option) {
-            case 'generate email':
-                $('.search-container').hide();
-                $('.email-container, .survey-container, #candidate-details').show();
-                break;
-            case 'find candidate':
-                $('.email-container, .survey-container').hide();
-                $('.search-container, #candidate-details').show();
-                break;
-            // Add more cases for additional options
-        }
+function submitInsertDetails() {
+    // Get values from the form
+    const email = document.getElementById('email').value;
+    const mobile = document.getElementById('mobile').value;
+    const name = document.getElementById('name').value;
+    const workauth = document.getElementById('workauth').value;
+    const annualrate = document.getElementById('annualrate').value;
+    const hourlyrate = document.getElementById('hourlyrate').value;
+    const relocate = document.getElementById('relocate').value;
+    const location = document.getElementById('location').value;
+
+    // Send data to the backend API
+    fetch('/eximius/api/inputcandidatedetail', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email,
+            mobile,
+            name,
+            workauth,
+            annualrate,
+            hourlyrate,
+            relocate,
+            location,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display the response message on the UI
+        document.getElementById('insertMessage').innerText = data.message;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('insertMessage').innerText = 'Error occurred.';
     });
+}
 
-    // Event listener for the search button
-    $('#search-btn').on('click', function () {
-        var email = $('#search-input').val();
+function submitFetchDetails() {
+    // Get value from the form
+    const fetchEmail = document.getElementById('fetchEmail').value;
 
-        $.ajax({
-            type: 'POST',
-            url: '/eximius/api/getData/findcandidatedetail',
-            contentType: 'application/json',
-            data: JSON.stringify({ 'email': email }),
-            success: function (response) {
-                displayCandidateDetails(response);
-            },
-            error: function (error) {
-                console.error('Error:', error);
-            }
-        });
-    });
-
-    // Event listener for the generate button
-    $('#generate-btn').on('click', function () {
-        $.ajax({
-            type: 'POST',
-            url: '/eximius/api/candidate_onboarding_email',
-            contentType: 'application/json',
-            success: function (response) {
-                // Update the email textarea with the generated email body
-                $('#email-result').val(response.messageList[0].body);
-
-                // Update the questionnaire form
-                updateQuestionnaireForm(response.messageList[0].survey);
-            },
-            error: function (error) {
-                console.error('Error:', error);
-            }
-        });
-    });
-
-    // Function to display candidate details in a table
-    function displayCandidateDetails(candidateDetails) {
-        var detailsContainer = $('#candidate-details');
-        detailsContainer.empty();
-
-        if (candidateDetails.message.statusCode === 200) {
-            var resumeRecord = candidateDetails.resumeRecord;
-            var table = $('<table>').addClass('candidate-table');
-            detailsContainer.append(table);
-
-            for (var key in resumeRecord) {
-                if (resumeRecord.hasOwnProperty(key)) {
-                    var value = resumeRecord[key];
-
-                    if (typeof value !== 'object') {
-                        var row = $('<tr>');
-                        row.append($('<td>').text(key));
-                        row.append($('<td>').text(value));
-                        table.append(row);
-                    }
-                }
-            }
+    // Send data to the backend API
+    fetch('/eximius/api/getData/findcandidatedetail', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: fetchEmail,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display the response on the UI
+        if (data.message) {
+            document.getElementById('fetchMessage').innerText = data.message;
         } else {
-            detailsContainer.text('No data found for the given candidate ID.');
+            // Assuming the data is displayed in a div
+            document.getElementById('fetchMessage').innerText = JSON.stringify(data);
         }
-    }
-
-    // Function to update the questionnaire form
-    function updateQuestionnaireForm(survey) {
-        var form = $('#survey-form');
-        form.empty();
-
-        var surveyTitle = $('<h3>').text(survey.surveyTitle);
-        form.append(surveyTitle);
-
-        for (var i = 0; i < survey.questions.length; i++) {
-            var question = survey.questions[i];
-            var questionText = $('<p>').text(question.questionText);
-            form.append(questionText);
-
-            switch (question.responseType) {
-                case 'ratings':
-                    var ratingsInput = $('<select>').attr('name', 'question' + (i + 1));
-                    for (var j = 0; j < question.responseOptions.length; j++) {
-                        ratingsInput.append($('<option>').text(question.responseOptions[j]));
-                    }
-                    form.append(ratingsInput);
-                    break;
-                case 'Binary':
-                    var binaryInput = $('<select>').attr('name', 'question' + (i + 1));
-                    for (var k = 0; k < question.responseOptions.length; k++) {
-                        binaryInput.append($('<option>').text(question.responseOptions[k]));
-                    }
-                    form.append(binaryInput);
-                    break;
-                case 'user input':
-                    var userInput = $('<input>').attr({ type: 'text', name: 'question' + (i + 1), placeholder: 'Your Answer' });
-                    form.append(userInput);
-                    break;
-            }
-        }
-    }
-});
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('fetchMessage').innerText = 'Error occurred.';
+    });
+}
